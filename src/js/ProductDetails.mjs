@@ -23,8 +23,7 @@ export default class ProductDetails {
 
 	addProductToCart() {
 		const currentCart = getLocalStorage("so-cart") || [];
-		//Pulled the condensed version of "if currentCart is null, make it an array" from the example solution
-		currentCart.push(product);
+		currentCart.push(this.product);
 		setLocalStorage("so-cart", currentCart);
 	}
 

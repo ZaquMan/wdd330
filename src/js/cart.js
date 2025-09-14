@@ -2,10 +2,16 @@ import { getLocalStorage } from "./utils.mjs";
 
 function renderCartContents() {
   const cartItems = getLocalStorage("so-cart");
-  const htmlItems = cartItems && cartItems.length > 0
-    ? cartItems.map((item) => cartItemTemplate(item))
-    : [];
+  const htmlItems =
+    cartItems && cartItems.length > 0
+      ? cartItems.map((item) => cartItemTemplate(item))
+      : [];
   document.querySelector(".product-list").innerHTML = htmlItems.join("");
+
+  // Show totals only if cart is not empty
+  if (cartItems && cartItems.length > 0) {
+    renderCartTotal(cartItems);
+  }
 }
 
 function cartItemTemplate(item) {
@@ -25,6 +31,15 @@ function cartItemTemplate(item) {
 </li>`;
 
   return newItem;
+}
+
+function renderCartTotal(cartItems) {
+  const total = cartItems.reduce((sum, item) => sum + item.FinalPrice, 0);
+
+  const cartFooter = document.querySelector(".cart-footer");
+  cartFooter.classList.remove("hide");
+  cartFooter.querySelector(".cart-total").textContent =
+    `Total: $${total.toFixed(2)}`;
 }
 
 renderCartContents();

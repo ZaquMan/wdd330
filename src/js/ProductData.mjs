@@ -12,6 +12,7 @@ export default class ProductData {
   }
   async findProductById(id) {
     const products = await this.getData();
+    if (!products.ok) throw new Error(`failed to fetch ${this.getData}`)
     return products.find((item) => item.Id === id);
   }
 }

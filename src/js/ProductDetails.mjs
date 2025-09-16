@@ -42,7 +42,7 @@ export default class ProductDetails {
 		price.textContent = `$${this.product.SuggestedRetailPrice}`;
 		// Added a visual indicator of the amount of the discount on the product detail page for each product.
 		const finalPrice = Number(this.product.FinalPrice);
-		const srp = this.product.SuggestedReatilPrice != null ? Number(this.product.SuggestedRetailPrice) : null;
+		const srp = this.product.SuggestedRetailPrice != null ? Number(this.product.SuggestedRetailPrice) : null;
 		const listPrice = this.product.ListPrice !=  null ? Number (this.product.ListPrice) : null;
 
 		// base price to compare to the final price
@@ -54,7 +54,7 @@ export default class ProductDetails {
 			// 33% off badge next to already existing price
 			const coupon = document.createElement("span");
 			coupon.textContent = ` -${percent}%`;
-			coupon.style.display = "inline block";
+			coupon.style.display = "inline-block";
 			coupon.style.marginLeft = "0.5rem";
 			coupon.style.padding = "0.15rem 0.4rem";
 			coupon.style.borderRadius = "9999px";

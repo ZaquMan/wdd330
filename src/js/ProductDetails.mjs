@@ -40,43 +40,44 @@ export default class ProductDetails {
 		img.src = this.product.Image;
 		img.alt = this.product.Name;
 		price.textContent = `$${this.product.SuggestedRetailPrice}`;
-		color.textContent = this.product.Colors.ColorName;
-		desc.innerHTML= this.product.DescriptionHtmlSimple;
-		button.dataset.id = this.productId;
+		// Added a visual indicator of the amount of the discount on the product detail page for each product.
+		const finalPrice = Number(this.product.FinalPrice);
+		const srp = this.product.SuggestedReatilPrice != null ? Number(this.product.SuggestedRetailPrice) : null;
+		const listPrice = this.product.ListPrice !=  null ? Number (this.product.ListPrice) : null;
 
-		productPage.appendChild(clone);
+		// base price to compare to the final price
+		const basePrice = (srp && srp > finalPrice) ? srp : ((listPrice && listPrice > finalPrice) ? listPrice : null);
+		if (basePrice && finalPrice && basePrice > finalPrice) {
+			const savings = basePrice - finalPrice;
+			const percent = Math.round((savings / basePrice) * 100);
+
+			// 33% off badge next to already existing price
+			const coupon = document.createElement("span");
+			coupon.textContent = ` -${percent}%`;
+			coupon.style.display = "inline block";
+			coupon.style.marginLeft = "0.5rem";
+			coupon.style.padding = "0.15rem 0.4rem";
+			coupon.style.borderRadius = "9999px";
+			coupon.style.background = "#16a34a";
+			coupon.style.color = "#fff";
+			coupon.style.fontWeight = "700";
+			coupon.style.fontSize = "0.85rem";
+			price.appendChild(coupon);
+
+			// Show how much $ is saved underneath the price
+			const savingsLine = document.createElement("p");
+			savingsLine.textContent = `Save $${savings.toFixed(2)}`;
+			savingsLine.style.color = "#16a34a";
+			savingsLine.style.fontWeight = "600";
+			savingsLine.style.margin = "0.25rem 0 0";
+			price.insertAdjacentElement("afterend", savingsLine);
+		}
+
+			color.textContent = this.product.Colors.ColorName;
+			desc.innerHTML= this.product.DescriptionHtmlSimple;
+			button.dataset.id = this.productId;
+
+			productPage.appendChild(clone);
 	}
 }
 
-const finalPrice = Number(this.product.FinalPrice);
-const srp = this.product.SuggestedReatilPrice != null ? Number(this.product.SuggestedRetailPrice) : null;
-const listPrice = this.product.ListPrice !=  null ? Number (this.product.ListPrice) : null;
-
-// Added a visual indicator of the amount of the discount on the product detail page for each product.
-// base price to compare to the final price
-const basePrice = (srp && srp > finalPrice) ? srp : ((listPrice && listPrice > finalPrice) ? listPrice : null);
-if (basePrice && finalPrice && basePrice > finalPrice) {
-	const savings = basePrice - finalPrice;
-	const percent = Math.round((savings / basePrice) * 100);
-
-	// 33% off badge next to already existing price
-	const coupon = document.createElement("span");
-	coupon.textContent = ` -${percent}%`;
-	coupon.style.display = "inline block";
-	coupon.style.marginLeft = "0.5rem";
-	coupon.style.padding = "0.15rem 0.4rem";
-	coupon.style.borderRadius = "9999px";
-	coupon.style.background = "#16a34a";
-	coupon.style.color = "#fff";
-	coupon.style.fontWeight = "700";
-	coupon.style.fontSize = "0.85rem";
-	price.appendChild(coupon);
-
-	// Show how much $ is saved underneath the price
-	const savingsLine = document.createElement("p");
-	savingsLine.textContent = `Save $${savings.toFixed(2)}`;
-	savingsLine.style.color = "#16a34a";
-	savingsLine.style.fontWeight = "600";
-	savingsLine.style.margin = "0.25rem 0 0";
-	price.insertAdjacentElement("afterend", savingsLine);
-}

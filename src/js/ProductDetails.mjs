@@ -71,6 +71,9 @@ export default class ProductDetails {
 			savingsLine.style.fontWeight = "600";
 			savingsLine.style.margin = "0.25rem 0 0";
 			price.insertAdjacentElement("afterend", savingsLine);
+
+			//TODO: If there is a discount, use CSS to strike through SRP,
+			//write the sale price / final price next to or under the SRP. 
 		}
 
 			color.textContent = this.product.Colors.ColorName;

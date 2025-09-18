@@ -11,7 +11,7 @@ const element = document.querySelector(".product-list");
 
 const productList = new ProductList("Tents", dataSource, element);
 
-productList.init().catch(err => {
-    console.error(err);
-    listElement.innerHtml = `<li class="error">Failedto load products.</li>`;
+productList.init().catch((err) => {
+  console.error(err);
+  this.listElement.innerHtml = `<li class="error">Failed to load products.</li>`;
 });

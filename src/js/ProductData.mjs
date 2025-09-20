@@ -1,18 +1,24 @@
 import { convertToJson } from "./utils.mjs";
+const baseURL = import.meta.env.VITE_SERVER_URL;
 
 export default class ProductData {
-  constructor(category) {
-    this.category = category;
-    this.path = `../json/${this.category}.json`;
+  constructor() {
+    /*this.category = category;
+    this.path = `../json/${this.category}.json`; */
   }
-  getData() {
-    return fetch(this.path)
+  getData(category) {
+    return fetch(`${baseURL}products/search/${category}`)
       .then(convertToJson)
-      .then((data) => data);
+      .then((data) => {
+        return data.Result;
+      });
   }
+
   async findProductById(id) {
-    const products = await this.getData();
-    if (products.length === 0) throw new Error(`failed to fetch ${this.getData}`)
-    return products.find((item) => item.Id === id);
+    const response = await fetch(`${baseURL}product/${id}`);
+    /*if (products.length === 0)
+      throw new Error(`failed to fetch ${this.getData}`); */
+    const data = await convertToJson(response);
+    return data.Result;
   }
 }

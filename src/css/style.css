@@ -259,6 +259,32 @@ button {
   grid-column: 3;
 }
 
+.price-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.coupon {
+  display: inline-block;
+  padding: 0.15rem 0.75rem;
+  border-radius: 9999px;
+  background: #16a34a;
+  color: #fff;
+  font-weight: 700;
+  font-size: 0.85rem;
+  text-align: end;
+  margin-right: 0.75rem;
+}
+
+.suggested-price {
+  text-decoration: line-through;
+  color: #888;
+  font-weight: 400;
+  font-size: 0.85rem;
+  padding-left: 0.75rem;
+}
+
 /* Totals in Cart */
 .hide {
   display: none;

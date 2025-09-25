@@ -110,6 +110,10 @@ button {
   cursor: pointer;
 }
 
+#checkoutLink {
+  text-decoration: none;
+}
+
 .divider {
   border-bottom: 2px solid var(--primary-color);
 }

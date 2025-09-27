@@ -81,6 +81,9 @@ export async function loadHeaderFooter() {
 
   renderWithTemplate(headerTemplate, headerEle);
   renderWithTemplate(footerTemplate, footerEle);
+
+  document.querySelector(".cart-items").textContent =
+    getLocalStorage("so-cart").length;
 }
 
 export function alertMessage(message, scroll = true, duration = 3000) {

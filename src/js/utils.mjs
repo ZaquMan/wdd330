@@ -82,8 +82,9 @@ export async function loadHeaderFooter() {
   renderWithTemplate(headerTemplate, headerEle);
   renderWithTemplate(footerTemplate, footerEle);
 
-  document.querySelector(".cart-items").textContent =
-    getLocalStorage("so-cart").length;
+  document.querySelector(".cart-items").textContent = getLocalStorage("so-cart")
+    ? getLocalStorage("so-cart").length
+    : 0;
 }
 
 export function alertMessage(message, scroll = true, duration = 3000) {

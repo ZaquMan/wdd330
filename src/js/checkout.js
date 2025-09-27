@@ -1,22 +1,19 @@
 import { loadHeaderFooter, getLocalStorage } from "./utils.mjs";
+import CheckoutProcess from "./CheckoutProcess.mjs";
 
 loadHeaderFooter();
 
-function orderSummary() {
-	const cartItems = getLocalStorage("so-cart");
-	const subtotal = cartItems.reduce((sum, item) => sum + item.FinalPrice, 0);
-	const tax = subtotal * 0.06;
-	let shipping = 0;
+const order = new CheckoutProcess("so-cart", ".summary");
+order.init();
 
-	if (cartItems.length >= 1) shipping += 10;
-	if (cartItems.length > 1) shipping += (cartItems.length - 1) * 2;
+document
+  .querySelector("#zip")
+  .addEventListener("blur", order.calculateOrderTotal.bind(order));
 
-	const total = subtotal + tax + shipping;
-
-	document.querySelector("#subtotal").textContent = `$${subtotal.toFixed(2)}`;
-	document.querySelector("#tax").textContent = `$${tax.toFixed(2)}`;
-	document.querySelector("#shipping").textContent = `$${shipping.toFixed(2)}`;
-	document.querySelector("#total").textContent = `$${total.toFixed(2)}`;
-}
-
-orderSummary();
+document.querySelector("#checkout").addEventListener("click", (e) => {
+  e.preventDefault();
+  const myForm = document.forms[0];
+  const chk_status = myForm.checkValidity();
+  myForm.reportValidity();
+  if (chk_status) order.checkout();
+});

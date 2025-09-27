@@ -33,7 +33,7 @@ export function renderListWithTemplate(
   parentElement,
   list,
   position = "afterbegin",
-  clear = false
+  clear = false,
 ) {
   if (!parentElement) return;
   if (clear) parentElement.innerHTML = "";
@@ -41,21 +41,17 @@ export function renderListWithTemplate(
   parentElement.insertAdjacentHTML(position, htmlStrings);
 }
 
-export function renderWithTemplate(
-  template,
-  parentElement,
-  data,
-  callback
-) {
+export function renderWithTemplate(template, parentElement, data, callback) {
   parentElement.innerHTML = template;
   if (callback) callback(data);
 }
 
-export function convertToJson(res) {
+export async function convertToJson(res) {
+  const data = await res.json();
   if (res.ok) {
-    return res.json();
+    return data;
   } else {
-    throw new Error("Bad Response");
+    throw { name: "servicesError", message: data };
   }
 }
 
@@ -68,11 +64,12 @@ function convertToText(result) {
 }
 
 export async function loadTemplate(path) {
-  return fetch(path).then(convertToText).then((data) => data);
+  return fetch(path)
+    .then(convertToText)
+    .then((data) => data);
 }
 
-export async function loadHeaderFooter()
-{
+export async function loadHeaderFooter() {
   const headerPath = "/partials/header.html";
   const footerPath = "/partials/footer.html";
 
@@ -84,4 +81,29 @@ export async function loadHeaderFooter()
 
   renderWithTemplate(headerTemplate, headerEle);
   renderWithTemplate(footerTemplate, footerEle);
+
+  document.querySelector(".cart-items").textContent = getLocalStorage("so-cart")
+    ? getLocalStorage("so-cart").length
+    : 0;
+}
+
+export function alertMessage(message, scroll = true, duration = 3000) {
+  const alert = document.createElement("div");
+  alert.classList.add("alert");
+  alert.innerHTML = `<p>${message}</p><span>X</span>`;
+
+  alert.addEventListener("click", function (e) {
+    if (e.target.tagName == "SPAN") {
+      main.removeChild(this);
+    }
+  });
+  const main = document.querySelector("main");
+  main.prepend(alert);
+
+  if (scroll) window.scrollTo(0, 0);
+}
+
+export function removeAllAlerts() {
+  const alerts = document.querySelectorAll(".alert");
+  alerts.forEach((alert) => document.querySelector("main").removeChild(alert));
 }

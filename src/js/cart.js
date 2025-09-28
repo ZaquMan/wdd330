@@ -1,4 +1,4 @@
-import { getLocalStorage, loadHeaderFooter } from "./utils.mjs";
+import { getLocalStorage, loadHeaderFooter, setLocalStorage } from "./utils.mjs";
 
 function renderCartContents() {
   const cartItems = getLocalStorage("so-cart");
@@ -26,7 +26,7 @@ function cartItemTemplate(item) {
     <h2 class="card__name">${item.Name}</h2>
   </a>
   <p class="cart-card__color">${item.Colors[0].ColorName}</p>
-  <p class="cart-card__quantity">qty: ${item.quantity}</p>
+  <p class="cart-card__quantity"><button id="subQty">-</button><span>${item.quantity}</span><button id="addQty">+</button></p>
   <p class="cart-card__price">$${(item.FinalPrice * item.quantity).toFixed(2)}</p>
 </li>`;
 
@@ -43,6 +43,14 @@ function renderCartTotal(cartItems) {
   cartFooter.classList.remove("hide");
   cartFooter.querySelector(".cart-total").textContent =
     `Total: $${total.toFixed(2)}`;
+}
+
+function addItem(productId) {
+
+}
+
+function subtractItem(productId) {
+  
 }
 
 renderCartContents();

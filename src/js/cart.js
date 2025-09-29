@@ -109,6 +109,9 @@ function addItem(productId) {
       document.querySelector(
         `#product_${productId} p.cart-card__quantity span`,
       ).textContent = product.quantity;
+      document.querySelector(
+        `#product_${productId} p.cart-card__price`,
+      ).textContent = (product.FinalPrice * product.quantity).toFixed(2);
       renderCartTotal(prodList);
     }
   });
@@ -121,6 +124,9 @@ function subtractItem(productId) {
     //Remove 1 from the product quantity.
     if (product.Id === productId) {
       --product.quantity;
+      document.querySelector(
+        `#product_${productId} p.cart-card__price`,
+      ).textContent = (product.FinalPrice * product.quantity).toFixed(2);
       if (product.quantity === 0) {
         //If the product quantity is 0, remove it from the local storage list and the cart page.
         prodList = prodList.filter((prod) => prod.Id != productId);

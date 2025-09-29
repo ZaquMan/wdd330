@@ -42,7 +42,7 @@ function renderCartTotal(cartItems) {
   const cartFooter = document.querySelector(".cart-footer");
   cartFooter.classList.remove("hide");
   cartFooter.querySelector(".cart-total").textContent =
-    `Total: $${total.toFixed(2)}`;
+    `Total: $${total.toFixed(2)}`; 
 }
 
 renderCartContents();

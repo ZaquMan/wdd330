@@ -242,6 +242,8 @@ button {
   font-size: var(--small-font);
   /* max-height: 120px; */
   align-items: center;
+  width: 100%;
+  padding: 1rem;
 }
 
 .cart-card__image {
@@ -269,7 +271,6 @@ button {
   display: flex;
   flex-direction: column-reverse;
 }
-
 
 .cart-card__quantity button {
   display: inline;

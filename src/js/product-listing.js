@@ -1,10 +1,6 @@
 import ProductData from "./ProductData.mjs";
 import ProductList from "./ProductList.mjs";
-import Alert from "./Alert.mjs";
 import { loadHeaderFooter, getParam } from "./utils.mjs";
-
-const alerts = new Alert(document.querySelector("main"));
-alerts.renderAlerts();
 
 const category = getParam("category");
 

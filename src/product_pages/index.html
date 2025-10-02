@@ -72,8 +72,25 @@
           <div class="product-detail__add">
             <button id="addToCart" data-id="">Add to Cart</button>
           </div>
+
+        <section class="comments" id="comments">
+          <h2>Comments</h2>
+
+          <form id="commentForm" class="comment-form" autocomplete="on">
+            <label class="sr-only" for="commentName">Name</label>
+            <input id="commentName" name="name" type="text" Placeholder="Your name (optional)"/>
+
+            <label class="sr-only" for="commentText">Comment</label>
+            <textarea id="commentText" name="text" rows="3" placeholder="Write a comment..." required></textarea>
+
+            <button type="submit" id="commentSubmit">Submit Comment</button>
+          </form>
+
+          <ul id="commentList" class="comment-list" aria-live="polite"></ul>
         </section>
-      </template>
+
+        </section>
+    </template>
       <div id="productRender"></div>
     </main>
 

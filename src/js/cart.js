@@ -23,7 +23,7 @@ function renderCartContents() {
 function cartItemTemplate(item) {
   const newItem = document.createElement("li");
   newItem.className = "cart-card divider";
-  newItem.id = `product_${item.Id}`;
+  newItem.id = `product_${item.Id}_${item.selectedColor}`;
 
   const prodLink = document.createElement("a");
   prodLink.setAttribute("href", `/product_pages/index.html?product=${item.Id}`);
@@ -51,7 +51,9 @@ function cartItemTemplate(item) {
   newItem.appendChild(prodLink2);
 
   const prodColor = document.createElement("p");
-  prodColor.textContent = item.Colors[0].ColorName;
+  prodColor.textContent = item.Colors.find(
+    (color) => color.ColorCode === item.selectedColor,
+  ).ColorName;
   prodColor.className = "cart-card__color";
   newItem.appendChild(prodColor);
 
@@ -61,7 +63,7 @@ function cartItemTemplate(item) {
   const subBtn = document.createElement("button");
   subBtn.textContent = "-";
   subBtn.addEventListener("click", () => {
-    subtractItem(item.Id);
+    subtractItem(item.Id, item.selectedColor);
   });
   prodQty.appendChild(subBtn);
 
@@ -72,7 +74,7 @@ function cartItemTemplate(item) {
   const addBtn = document.createElement("button");
   addBtn.textContent = "+";
   addBtn.addEventListener("click", () => {
-    addItem(item.Id);
+    addItem(item.Id, item.selectedColor);
   });
   prodQty.appendChild(addBtn);
 
@@ -95,43 +97,45 @@ function renderCartTotal(cartItems) {
   const cartFooter = document.querySelector(".cart-footer");
   cartFooter.classList.remove("hide");
   cartFooter.querySelector(".cart-total").textContent =
-    `Total: $${total.toFixed(2)}`; 
+    `Total: $${total.toFixed(2)}`;
 }
 
-function addItem(productId) {
+function addItem(productId, colorId) {
   const prodList = getLocalStorage("so-cart");
 
   prodList.forEach((product) => {
-    if (product.Id === productId) {
+    if (product.IdWithColor === `${productId}_${colorId}`) {
       //Add 1 to the product quantity and update the cart page and the local storage.
       ++product.quantity;
       setLocalStorage("so-cart", prodList);
       document.querySelector(
-        `#product_${productId} p.cart-card__quantity span`,
+        `#product_${productId}_${colorId} p.cart-card__quantity span`,
       ).textContent = product.quantity;
       document.querySelector(
-        `#product_${productId} p.cart-card__price`,
+        `#product_${productId}_${colorId} p.cart-card__price`,
       ).textContent = (product.FinalPrice * product.quantity).toFixed(2);
       renderCartTotal(prodList);
     }
   });
 }
 
-function subtractItem(productId) {
+function subtractItem(productId, colorId) {
   let prodList = getLocalStorage("so-cart");
 
   prodList.forEach((product) => {
     //Remove 1 from the product quantity.
-    if (product.Id === productId) {
+    if (product.IdWithColor === `${productId}_${colorId}`) {
       --product.quantity;
       document.querySelector(
-        `#product_${productId} p.cart-card__price`,
+        `#product_${productId}_${colorId} p.cart-card__price`,
       ).textContent = (product.FinalPrice * product.quantity).toFixed(2);
       if (product.quantity === 0) {
         //If the product quantity is 0, remove it from the local storage list and the cart page.
-        prodList = prodList.filter((prod) => prod.Id != productId);
+        prodList = prodList.filter(
+          (prod) => prod.IdWithColor != `${productId}_${colorId}`,
+        );
         setLocalStorage("so-cart", prodList);
-        document.querySelector(`#product_${productId}`).remove();
+        document.querySelector(`#product_${productId}_${colorId}`).remove();
         if (prodList.length > 0) {
           renderCartTotal(prodList);
         } else {
@@ -142,7 +146,7 @@ function subtractItem(productId) {
         //If there is 1 or more of the item left, update the cart and local storage
         setLocalStorage("so-cart", prodList);
         document.querySelector(
-          `#product_${productId} p.cart-card__quantity span`,
+          `#product_${productId}_${colorId} p.cart-card__quantity span`,
         ).textContent = product.quantity;
         renderCartTotal(prodList);
       }

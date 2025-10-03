@@ -90,7 +90,7 @@ p {
   margin-top: -1.3em;
 }
 
-.logo--square > div {
+.logo--square>div {
   margin-top: -1.7em;
 }
 
@@ -126,6 +126,7 @@ button {
   position: relative;
   text-align: center;
 }
+
 .cart .cart-items {
   position: absolute;
   top: 0.5rem;
@@ -139,6 +140,7 @@ button {
   font-size: 1.1rem;
   font-weight: 500;
 }
+
 .cart svg {
   width: 25px;
 }
@@ -226,6 +228,48 @@ button {
 }
 
 /* End product list card */
+
+/* Start of product details page */
+
+.product__color {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: space-around;
+  /* align-items: stretch; */
+  color: var(--dark-grey);
+
+  figure {
+    background-color: var(--light-grey);
+    padding: 5px;
+    /* border: 3px solid var(--light-grey); */
+    border-radius: 5px;
+    box-shadow: inset -2px -2px var(--dark-grey);
+    /* height: 100%; */
+  }
+
+  :checked+figure {
+    box-shadow: inset 1px 1px var(--dark-grey);
+    transform: scale(1.075);
+  }
+
+  figcaption {
+    text-align: center;
+  }
+
+  input {
+    display: none;
+  }
+
+  label img {
+    width: 120px;
+    height: auto;
+    border-radius: 5px;
+  }
+}
+
+
+/* End of procudt details page */
 
 .product-detail {
   padding: 1em;
@@ -329,19 +373,23 @@ button {
   background-color: var(--primary-color);
   border: 1px solid darkorange;
 }
-.alert > p {
+
+.alert>p {
   margin: 0;
 }
 
 form {
   margin-top: 1rem;
 }
+
 form fieldset input {
   margin: 0.5rem 0;
 }
+
 form fieldset label {
   margin-left: 1rem;
 }
+
 @media screen and (min-width: 500px) {
   body {
     max-width: 1080px;

@@ -90,7 +90,7 @@ p {
   margin-top: -1.3em;
 }
 
-.logo--square>div {
+.logo--square > div {
   margin-top: -1.7em;
 }
 
@@ -248,7 +248,7 @@ button {
     /* height: 100%; */
   }
 
-  :checked+figure {
+  :checked + figure {
     box-shadow: inset 1px 1px var(--dark-grey);
     transform: scale(1.075);
   }
@@ -267,7 +267,6 @@ button {
     border-radius: 5px;
   }
 }
-
 
 /* End of procudt details page */
 
@@ -403,7 +402,7 @@ button {
   border: 1px solid darkorange;
 }
 
-.alert>p {
+.alert > p {
   margin: 0;
 }
 

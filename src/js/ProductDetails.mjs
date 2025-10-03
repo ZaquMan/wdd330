@@ -32,7 +32,7 @@ export default class ProductDetails {
 			productExist.quantity += 1;
 		}
 		else {
-			currentCart.push({ ...this.product, quantity: 1, selectedColor: selectedColorId });
+			currentCart.push({ ...this.product, quantity: 1, selectedColor: selectedColorId, IdWithColor: `${this.product.Id}_${selectedColorId}` });
 		}
 
 		setLocalStorage("so-cart", currentCart);

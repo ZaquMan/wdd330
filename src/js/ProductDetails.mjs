@@ -1,5 +1,43 @@
 import { getLocalStorage, setLocalStorage } from "./utils.mjs";
 
+const COMMENTS_KEY = "productComments";
+
+function loadCommentsStore() {
+	const store = getLocalStorage(COMMENTS_KEY);
+	return store ? store : {};
+}
+
+function saveCommentsStore() {
+	setLocalStorage(COMMENTS_KEY, store);
+}
+
+function getComments() {
+	const store = loadCommentsStore();
+	const list = store[productId];
+	return array.isArray(list) ? list : [];
+}
+
+function postComment(productId, payload) {
+	const store = loadCommentsStore();
+	const list = Array.isArray(store[productId]) ? store[productId] : [];
+
+	var name = 	payload.name ? payload.name.trim() : "";
+	var text = payload.text ? payload.text.trim() : "";
+	if (!text) return list;
+
+	list.push({
+		id: string(Date.now()),
+		name: name || "Anonymous",
+		text: text,
+		createdAt: new Date().toISOString()
+	});
+
+	store[productId] = list;
+	saveCommentsStore(store);
+	return list;
+
+}
+
 export default class ProductDetails {
 	constructor(productId, dataSource) {
 		this.productId = productId;
@@ -18,6 +56,8 @@ export default class ProductDetails {
 
 		document.getElementById('addToCart')
 			.addEventListener('click', this.addProductToCart.bind(this));
+
+			this.setupComments();
 		
 	}
 
@@ -88,6 +128,74 @@ export default class ProductDetails {
 			button.dataset.id = this.productId;
 
 			productPage.appendChild(clone);
+	}
+
+	setupComments() {
+		this.renderComments();
+
+		var form = document.getElementById("CommentForm");
+		if (!form) return;
+
+		form.addEventListener("submit", (e) => {
+			e.preventDefault();
+
+			var nameInput = document.getElementById("commentName");
+			var textInput = document.getElementById("commentText");
+
+			var name = nameInput ? nameInput.value : "";
+			var text = textInput ? textInput.value : "";
+
+			if (!text || text.trim() === "") return;
+
+			postComment(this.productId,{ name: name, text: text});
+			form.reset();
+			this.renderComments();
+		});
+	}
+
+	renderComments() {
+		var listEl = document.getElementById("commentList");
+		if (!listEl) return;
+
+		listEl.innerHTML = "";
+
+		var comments = getComments(this.productId);
+
+		if (!comments.length) {
+			var emptyItem = document.createElement("li");
+			emptyItem.className="comment-item";
+			var emptyText = document.createElement("div");
+			emptyText.className="comment-text";
+			emptyText.textContent = "Be the first to leave a comment.";
+			emptyItem.appendChild(emptyText);
+			listEl.appendChild(emptyItem);
+			return;
+		}
+
+		comments.sort(function (a, b) {
+			return new Date(b.createdAt) - new Date(a.createdAt);
+		});
+
+		for (var i = 0; i < comments.length; i++) {
+			var c = comments[i];
+
+			var li = document.createElement("li");
+			li.className = "comment-item";
+
+			var meta = document.createElement("div");
+			meta.className = "comment-meta";
+			var when = new Date(c.createdAt).toLocaleString();
+			meta.textContent = (c.name || "Anonymous") + " * " + when;
+
+			var body = document.createElement("div");
+			body.className = "comment-text";
+			body,textContent = c.text;
+
+			li.appendChild(meta);
+			li.appendChild(body);
+			listEl.appendChild(li);
+		}
+
 	}
 }
 

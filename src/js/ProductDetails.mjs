@@ -63,8 +63,15 @@ export default class ProductDetails {
 
 	addProductToCart() {
 		const currentCart = getLocalStorage("so-cart") || [];
-		//Pulled the condensed version of "if currentCart is null, make it an array" from the example solution
-		currentCart.push(this.product);
+
+		const productExist = currentCart.find(item => item.Id === this.product.Id);
+		if (productExist) {
+			productExist.quantity += 1;
+		}
+		else {
+			currentCart.push({ ...this.product, quantity: 1 });
+		}
+
 		setLocalStorage("so-cart", currentCart);
 	}
 
@@ -76,8 +83,8 @@ export default class ProductDetails {
 		const [brand, title, img, price, color, desc, button] = clone.querySelectorAll("h3, h2, img, p, p, p, button");
 
 		brand.textContent = this.product.Brand.Name;
-		title.textContent = this.product.Name;
-		img.src = this.product.Image;
+		title.textContent = this.product.NameWithoutBrand;
+		img.src = this.product.Images.PrimaryExtraLarge;
 		img.alt = this.product.Name;
 		price.textContent = `$${this.product.SuggestedRetailPrice}`;
 		// Added a visual indicator of the amount of the discount on the product detail page for each product.
@@ -116,7 +123,7 @@ export default class ProductDetails {
 			//write the sale price / final price next to or under the SRP. 
 		}
 
-			color.textContent = this.product.Colors.ColorName;
+			color.textContent = this.product.Colors[0].ColorName;
 			desc.innerHTML= this.product.DescriptionHtmlSimple;
 			button.dataset.id = this.productId;
 

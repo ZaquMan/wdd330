@@ -14,7 +14,7 @@ function saveCommentsStore() {
 function getComments() {
 	const store = loadCommentsStore();
 	const list = store[productId];
-	return array.isArray(list) ? list : [];
+	return Array.isArray(list) ? list : [];
 }
 
 function postComment(productId, payload) {
@@ -26,7 +26,7 @@ function postComment(productId, payload) {
 	if (!text) return list;
 
 	list.push({
-		id: string(Date.now()),
+		id : String(Date.now()),
 		name: name || "Anonymous",
 		text: text,
 		createdAt: new Date().toISOString()
@@ -133,38 +133,38 @@ export default class ProductDetails {
 	setupComments() {
 		this.renderComments();
 
-		var form = document.getElementById("CommentForm");
+		const form = document.getElementById("commentForm");
 		if (!form) return;
 
 		form.addEventListener("submit", (e) => {
 			e.preventDefault();
 
-			var nameInput = document.getElementById("commentName");
-			var textInput = document.getElementById("commentText");
+			const nameInput = document.getElementById("commentName");
+			const textInput = document.getElementById("commentText");
 
-			var name = nameInput ? nameInput.value : "";
-			var text = textInput ? textInput.value : "";
+			const name = nameInput ? nameInput.value : "";
+			const text = textInput ? textInput.value : "";
 
 			if (!text || text.trim() === "") return;
 
-			postComment(this.productId,{ name: name, text: text});
+			postComment(this.productId,{ name, text});
 			form.reset();
 			this.renderComments();
 		});
 	}
 
 	renderComments() {
-		var listEl = document.getElementById("commentList");
+		const listEl = document.getElementById("commentList");
 		if (!listEl) return;
 
 		listEl.innerHTML = "";
 
-		var comments = getComments(this.productId);
+		const comments = getComments(this.productId);
 
 		if (!comments.length) {
-			var emptyItem = document.createElement("li");
+			const emptyItem = document.createElement("li");
 			emptyItem.className="comment-item";
-			var emptyText = document.createElement("div");
+			const emptyText = document.createElement("div");
 			emptyText.className="comment-text";
 			emptyText.textContent = "Be the first to leave a comment.";
 			emptyItem.appendChild(emptyText);
@@ -184,7 +184,7 @@ export default class ProductDetails {
 
 			var meta = document.createElement("div");
 			meta.className = "comment-meta";
-			var when = new Date(c.createdAt).toLocaleString();
+			var when = new Date(c.createdAt).tolocalString();
 			meta.textContent = (c.name || "Anonymous") + " * " + when;
 
 			var body = document.createElement("div");

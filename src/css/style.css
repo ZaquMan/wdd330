@@ -149,6 +149,48 @@ button {
 
 /* End cart icon styles */
 
+/* CTA */
+dialog {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border: none;
+  width: 100%;
+  max-width: 500px;
+  padding: 0;
+}
+
+dialog::backdrop {
+  background: rgba(0, 0, 0, 0.6);
+}
+
+dialog::backdrop {
+  background: rgba(0, 0, 0, 0.6);
+}
+
+.cta-content {
+  padding: 1.5em;
+  background-color: #fff;
+  width: 100%;
+  height: auto;
+  text-align: center;
+}
+
+.cta-button {
+  display: flex;
+  justify-content: center;
+  gap: 5px;
+  margin-top: 2rem;
+  & button {
+    border-radius: 5pxx;
+    &:hover {
+      background-color: #77831a;
+    }
+  }
+}
+
+
 .mission {
   position: absolute;
   top: 1rem;

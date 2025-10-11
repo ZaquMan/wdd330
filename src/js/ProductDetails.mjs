@@ -13,26 +13,67 @@ export default class ProductDetails {
 		// once the HTML is rendered, add a listener to the Add to Cart button
 		// Notice the .bind(this). This callback will not work if the bind(this) is missing. Review the readings from this week on 'this' to understand why.
 		this.product = await this.dataSource.findProductById(this.productId);
-		
+
 		this.renderProductDetails();
+		document.querySelector("input").click();
 
 		document.getElementById('addToCart')
 			.addEventListener('click', this.addProductToCart.bind(this));
-		
+
 	}
 
 	addProductToCart() {
 		const currentCart = getLocalStorage("so-cart") || [];
 
-		const productExist = currentCart.find(item => item.Id === this.product.Id);
+		const selectedColorId = document.querySelector("input:checked").id;
+
+		const productExist = currentCart.find(item => (item.Id === this.product.Id && item.selectedColor === selectedColorId));
 		if (productExist) {
 			productExist.quantity += 1;
 		}
 		else {
-			currentCart.push({ ...this.product, quantity: 1 });
+			currentCart.push({ ...this.product, quantity: 1, selectedColor: selectedColorId, IdWithColor: `${this.product.Id}_${selectedColorId}` });
 		}
 
 		setLocalStorage("so-cart", currentCart);
+	}
+
+	productColorsTemplate(color) {
+		const label = document.createElement("label");
+
+		const radioBtn = document.createElement("input");
+		radioBtn.addEventListener("click", () => this.updateProductImage(color.ColorCode));
+		radioBtn.setAttribute("type", "radio");
+		radioBtn.setAttribute("id", color.ColorCode);
+		radioBtn.name = "color";
+		label.appendChild(radioBtn);
+
+		const fig = document.createElement("figure");
+		const img = document.createElement("img");
+		img.setAttribute("src", color.ColorChipImageSrc);
+		fig.appendChild(img);
+		const caption = document.createElement("figcaption");
+		caption.textContent = color.ColorName;
+		fig.appendChild(caption);
+		label.appendChild(fig);
+
+		return label;
+	}
+
+	renderProductColors(element) {
+		this.product.Colors.forEach((color) => element.appendChild(this.productColorsTemplate(color)));
+	}
+
+	updateProductImage(id) {
+		//TODO: When a label is clicked, change the product image
+		console.log(`${id} was clicked`);
+
+		const src = this.product.Colors.find(color => color.ColorCode === id).ColorPreviewImageSrc;
+		const colorName = this.product.Colors.find(color => color.ColorCode === id).ColorName;
+		const productName = this.product.Name;
+
+		document.querySelector("#product_img").setAttribute("src", src);
+		document.querySelector("#product_img").setAttribute("alt", `${productName} - ${colorName}`);
 	}
 
 	renderProductDetails() {
@@ -40,7 +81,7 @@ export default class ProductDetails {
 		const productPage = document.getElementById("productRender");
 
 		const clone = template.content.cloneNode(true);
-		const [brand, title, img, price, color, desc, button] = clone.querySelectorAll("h3, h2, img, p, p, p, button");
+		const [brand, title, img, price, color, desc, button] = clone.querySelectorAll("h3, h2, img, p, div, p, button");
 
 		brand.textContent = this.product.Brand.Name;
 		title.textContent = this.product.NameWithoutBrand;
@@ -50,7 +91,7 @@ export default class ProductDetails {
 		// Added a visual indicator of the amount of the discount on the product detail page for each product.
 		const finalPrice = Number(this.product.FinalPrice);
 		const srp = this.product.SuggestedRetailPrice != null ? Number(this.product.SuggestedRetailPrice) : null;
-		const listPrice = this.product.ListPrice !=  null ? Number (this.product.ListPrice) : null;
+		const listPrice = this.product.ListPrice != null ? Number(this.product.ListPrice) : null;
 
 		// base price to compare to the final price
 		const basePrice = (srp && srp > finalPrice) ? srp : ((listPrice && listPrice > finalPrice) ? listPrice : null);
@@ -83,11 +124,15 @@ export default class ProductDetails {
 			//write the sale price / final price next to or under the SRP. 
 		}
 
-			color.textContent = this.product.Colors[0].ColorName;
-			desc.innerHTML= this.product.DescriptionHtmlSimple;
-			button.dataset.id = this.productId;
+		//const colorChildEleList = this.renderProductColors();
+		//color.innerHTML = this.renderProductColors();
+		this.renderProductColors(color);
+		// const firstColor = document.querySelector("input[type='radio']");
+		// firstColor.click();
+		desc.innerHTML = this.product.DescriptionHtmlSimple;
+		button.dataset.id = this.productId;
 
-			productPage.appendChild(clone);
+		productPage.appendChild(clone);
 	}
 }
 

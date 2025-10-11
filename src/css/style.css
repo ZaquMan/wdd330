@@ -373,7 +373,8 @@ form fieldset label {
 }
 
 /*Signup and Login styles*/
-form {
+#signupForm,
+#loginForm {
   max-width: 540px;
   margin: 2rem auto;
   padding: 1.5rem;
@@ -383,29 +384,35 @@ form {
   box-shadow: 0 2px 4px black;
 }
 
-fieldset {
+#signupForm fieldset,
+#loginForm fieldset {
   border: none;
   margin: 1rem 0;
   padding: 0;
 }
 
-legend {
+#signupForm legend,
+#loginForm legend {
   font-weight: 700;
   margin-bottom: .5rem;
 }
 
-.field {
+#signupForm .field,
+#loginForm .field {
   margin-bottom: 1rem;
 }
 
-label {
+#signupForm label,
+#loginForm label {
   display:block;
   font-weight: 600;
   margin-bottom: .25rem;
 }
 
-input,
-button {
+#signupForm input,
+#loginForm input,
+#signupForm button,
+#loginForm button {
   width: 100%;
   padding: 0.75rem;
   border: 1px solid white;
@@ -413,7 +420,8 @@ button {
   font-size: 1rem;
 }
 
-button {
+#signupForm button,
+#loginForm button {
   cursor: pointer;
   background-color: var(--primary-color);
   color: white;
@@ -421,17 +429,20 @@ button {
   border: none;
 }
 
-button:hover {
+#signupForm button:hover,
+#loginForm button:hover {
   background-color: blue;
 }
 
-.error {
+#signupForm .error,
+#loginForm .error {
   color: red;
   margin: 0.5rem 0 0;
   font-size: 0.9rem;
 }
 
-.hint {
+#signupForm .hint,
+#loginForm .hint {
   font-size: 0.8rem;
   color: greenyellow;
 }

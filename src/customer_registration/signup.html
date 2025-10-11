@@ -1,0 +1,61 @@
+<!Doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <title>SleepOutside | Sign Up</title>
+    <link rel="stylesheet" href="/css/style.css"/>
+</head>
+<body>
+    <main>
+        <h1>Create Your SleepOutside Account</h1>
+        <form id="signupForm" novalidate>
+            <fieldset>
+                <legend>Account</legend>
+                <div class="field">
+                    <label for="name">Full Name</label>
+                    <input id="name" name="name" type="text" autocopmplete="name" required/>
+                </div>
+                <div class="field">
+                    <label for="email">Email</label>
+                    <input id="email" name="email" type="email" autocomplete="email required"/>
+                </div>
+                <div class="field">
+                    <label for="password">Password</label>
+                    <input id="password" name="password" type="password" minlength="6" required/>
+                </div>
+            </fieldset>
+
+            <filedset>
+                <legend>Address</legend>
+                <div class="field">
+                    <label for="address1">Street Address</label>
+                    <input id="address1" name="address1" type="text" required/>
+                </div>
+                <div class="field">
+                    <label for="address2">Apt / Suite</label>
+                    <input id="address2" name="address2" type="text"/>
+                </div>
+                <div class="field">
+                    <label for="city">City</label>
+                    <input id="city" name="city" type="text" required/>
+                </div>
+                <div class="field">
+                    <label for="state">State</label>
+                    <input id="state" name="state" type="text" maxlength="2" required/>
+                </div>
+                <div class="field">
+                    <labe for="zip">Zipcode</labe>
+                    <input id="zip" name="zip" type="text" pattern="\\d{5}" required/>
+                </div>  
+            </filedset>
+
+            <div id="formError" class="error" aria-live="polite"></div>
+            <button type="submit">Create Account</button>
+            <p class="hint">Already have and Account? <a href="customer_registration/login.html">Log in</a></p>
+        </form>
+    </main>
+
+    <script type="module" src="/js/signup.js"></script>
+</body>
+</html>
